@@ -1,5 +1,4 @@
-use std::collections::HashMap;
-
+use crate::lib::constants::*;
 /*
 --- SYNTAX ---
 USUAL BRAINFUCK SYNTAX:
@@ -22,18 +21,45 @@ _ -> set value of cell to 0
 } -> move value from "copy" slot into selected cell
 */
 
-const lookup: [(char, &str); 12] = [
-  ('-', "--(*ptr);"),
-  ('+', "++(*ptr);"),
-  ('>', "++ptr;"),
-  ('<', "--ptr;"),
-  ('.', "putchar(*ptr);"),
-  (',', "*ptr = getchar();"),
-  ('[', "while (*ptr) {"),
-  (']', "}"),
-  
-  ('_', "*ptr = 0;"),
-  ('!', "*ptr *= -1;"),
-  ('{', "copy = *ptr;"),
-  ('}', "*ptr = copy;"),
-];
+#[derive(Debug)]
+pub struct Lexer {
+  input: String
+}
+
+#[derive(Debug)]
+pub struct Token {
+  char: char,
+  n: usize, // how many times it's been repeated
+  out: String
+}
+
+impl Lexer {
+  pub fn init(input: String) -> Lexer {
+    let input = input
+    .replace("\n", "")
+    .replace("\r", "")
+    .replace(" ", "");
+
+    Lexer {
+      input
+    }
+  }
+
+  pub fn map(&self) -> Vec<Token> {
+    if let op = OPERATORS.iter().find(|i|i.0 == c) {
+      
+    }
+
+    todo!()
+  } 
+
+  fn lex(&self, c: char, n: usize) -> Token {
+    
+    if n > 1 {
+
+    }
+
+
+    todo!()
+  }
+}
