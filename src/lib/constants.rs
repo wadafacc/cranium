@@ -1,7 +1,9 @@
+use crate::lib::constants::Operator::*;
+
 pub const HEADER: &str = "
 #include <stdio.h> \n
 main() { \n
-char box[30000], *ptr=box, copy; \n
+char box[{}], *ptr=box, copy; \n
 ";
 
 pub const FOOTER: &str = "
@@ -9,13 +11,14 @@ pub const FOOTER: &str = "
 exit(); \n
 }";
 
-pub enum Operators {
+#[derive(Debug)]
+pub enum Operator {
   IncrCell,
   DecrCell,
   IncrPtr,
   DecrPtr,
-  PutChar,
-  GetChar,
+  Print,
+  Read,
   StartLoop,
   EndLoop,
   
@@ -26,20 +29,35 @@ pub enum Operators {
   Paste
 }
 
-pub const OPERATORS: [(char, &str); 12] = [
-  ('-', "--(*ptr);"),
-  ('+', "++(*ptr);"),
-  ('>', "++ptr;"),
-  ('<', "--ptr;"),
-  ('.', "putchar(*ptr);"),
-  (',', "*ptr = getchar();"),
-  ('[', "while (*ptr) {"),
-  (']', "}"),
+pub const OPERATORS: [(char, Operator); 12] = [
+  ('+', IncrCell),
+  ('-', DecrCell),
+  ('>', IncrPtr),
+  ('<', DecrPtr),
+  ('.', Print),
+  (',', Read),
+  ('[', StartLoop),
+  (']', EndLoop),
   
-  ('_', "*ptr = 0;"),
-  ('!', "*ptr *= -1;"),
-  ('{', "copy = *ptr;"),
-  ('}', "*ptr = copy;")
+  ('_', ZeroCell),
+  ('!', InvCell),
+  ('{', Copy),
+  ('}', Paste)
 ];
 
+pub const MAPPINGS: [(Operator, &str); 12] = [
+  (IncrCell, "++(*ptr);"),
+  (DecrCell, "--(*ptr);"),
+  (IncrPtr, "++ptr;"),
+  (DecrPtr, "--ptr;"),
+  (Print, "putchar(*ptr);"),
+  (Read, "*ptr = getchar();"),
+  (StartLoop, "while (*ptr) {"),
+  (EndLoop, "}"),
+  
+  (ZeroCell, "*ptr = 0;"),
+  (InvCell, "*ptr *= -1;"),
+  (Copy, "copy = *ptr;"),
+  (Paste, "*ptr = copy;")
+];
 

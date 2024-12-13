@@ -23,43 +23,55 @@ _ -> set value of cell to 0
 
 #[derive(Debug)]
 pub struct Lexer {
-  input: String
+  input: String,
+  opts: Options
 }
+
+
+#[derive(Debug)]
+pub struct Options {
+  group_args: bool, // group applicable arguments together -> +ptr +ptr => ptr += 2
+  run: bool, // run after "compilation"
+  r#override: bool,
+  with_tui: bool // attach a tui that shows each cell value for debug
+}
+
+
 
 #[derive(Debug)]
 pub struct Token {
   char: char,
-  n: usize, // how many times it's been repeated
-  out: String
+  token: Operator,
+  n: usize
 }
 
 impl Lexer {
-  pub fn init(input: String) -> Lexer {
+  pub fn new(input: String, opts: Options) -> Lexer {
+    // Cleanup input
     let input = input
     .replace("\n", "")
     .replace("\r", "")
     .replace(" ", "");
 
     Lexer {
-      input
+      input,
+      opts,
     }
   }
 
   pub fn map(&self) -> Vec<Token> {
-    if let op = OPERATORS.iter().find(|i|i.0 == c) {
-      
+    let mut out = Vec::new();
+    for c in self.input.chars() {
+      if let Some(t) = self.lex(c) && let Some(prev_t) = out.last() {
+      } 
     }
-
-    todo!()
+    out
   } 
 
-  fn lex(&self, c: char, n: usize) -> Token {
-    
-    if n > 1 {
-
+  fn lex(&self, c: char) -> Option<Token> {
+    if let Some((char, token)) = OPERATORS.into_iter().find(|i|i.0 == c) {
+      return Some(Token { char, token, n: 1 });
     }
-
-
-    todo!()
-  }
+    None
+  }  
 }
