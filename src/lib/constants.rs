@@ -11,7 +11,7 @@ pub const FOOTER: &str = "
 exit(); \n
 }";
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Operator {
   IncrCell,
   DecrCell,

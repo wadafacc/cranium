@@ -38,7 +38,7 @@ pub struct Options {
 
 
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Token {
   char: char,
   token: Operator,
@@ -62,7 +62,11 @@ impl Lexer {
   pub fn map(&self) -> Vec<Token> {
     let mut out = Vec::new();
     for c in self.input.chars() {
-      if let Some(t) = self.lex(c) && let Some(prev_t) = out.last() {
+      if let Some(t) = self.lex(c) {
+        if t == *out.last().unwrap_or(&None) {
+
+        }
+        
       } 
     }
     out
