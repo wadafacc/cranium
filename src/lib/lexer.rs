@@ -1,4 +1,4 @@
-use crate::lib::constants::*;
+use crate::lib::constants::{Operator::*, *};
 /*
 --- SYNTAX ---
 USUAL BRAINFUCK SYNTAX:
@@ -38,7 +38,7 @@ pub struct Options {
 
 
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Default)]
 pub struct Token {
   char: char,
   token: Operator,
@@ -60,13 +60,16 @@ impl Lexer {
   }
 
   pub fn map(&self) -> Vec<Token> {
-    let mut out = Vec::new();
+    let mut out :Vec<Token> = Vec::new();
     for c in self.input.chars() {
-      if let Some(t) = self.lex(c) {
-        if t == *out.last().unwrap_or(&None) {
+      if let Some(mut t) = self.lex(c) {
 
+        // only do this if its a + or -, < or >
+        if self.opts.group_args && (t == *out.last().unwrap_or(&Token{..Default::default()}) && [IncrCell, DecrCell, IncrPtr, DecrPtr].contains(&t.token)){
+          let last = out.pop().unwrap();
+          t.n += last.n;  // incr counter
         }
-        
+        out.push(t);    
       } 
     }
     out

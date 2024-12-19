@@ -11,7 +11,7 @@ pub const FOOTER: &str = "
 exit(); \n
 }";
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Default)]
 pub enum Operator {
   IncrCell,
   DecrCell,
@@ -26,7 +26,10 @@ pub enum Operator {
   ZeroCell,
   InvCell,
   Copy,
-  Paste
+  Paste,
+
+  #[default]
+  Empty
 }
 
 pub const OPERATORS: [(char, Operator); 12] = [
