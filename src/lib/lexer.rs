@@ -1,4 +1,6 @@
 use crate::lib::constants::{Operator::*, *};
+
+use super::compiler::Options;
 /*
 --- SYNTAX ---
 USUAL BRAINFUCK SYNTAX:
@@ -24,29 +26,19 @@ _ -> set value of cell to 0
 #[derive(Debug)]
 pub struct Lexer {
   input: String,
-  opts: Options
+  group_args: bool
 }
 
 
-#[derive(Debug)]
-pub struct Options {
-  group_args: bool, // group applicable arguments together -> +ptr +ptr => ptr += 2
-  run: bool, // run after "compilation"
-  r#override: bool,
-  with_tui: bool // attach a tui that shows each cell value for debug
-}
-
-
-
-#[derive(Debug, PartialEq, Default)]
+#[derive(Debug, PartialEq, Default, Clone, Copy)]
 pub struct Token {
-  char: char,
-  token: Operator,
-  n: usize
+  pub char: char,
+  pub token: Operator,
+  pub n: usize
 }
 
 impl Lexer {
-  pub fn new(input: String, opts: Options) -> Lexer {
+  pub fn new(input: String, group_args: bool) -> Lexer {
     // Cleanup input
     let input = input
     .replace("\n", "")
@@ -55,7 +47,7 @@ impl Lexer {
 
     Lexer {
       input,
-      opts,
+      group_args,
     }
   }
 
@@ -63,9 +55,8 @@ impl Lexer {
     let mut out :Vec<Token> = Vec::new();
     for c in self.input.chars() {
       if let Some(mut t) = self.lex(c) {
-
-        // only do this if its a + or -, < or >
-        if self.opts.group_args && (t == *out.last().unwrap_or(&Token{..Default::default()}) && [IncrCell, DecrCell, IncrPtr, DecrPtr].contains(&t.token)){
+        // only check previous if its a + or -, < or >
+        if self.group_args && (t.char == out.last().unwrap_or(&Token{..Default::default()}).char && [IncrCell, DecrCell, IncrPtr, DecrPtr].contains(&t.token)){
           let last = out.pop().unwrap();
           t.n += last.n;  // incr counter
         }

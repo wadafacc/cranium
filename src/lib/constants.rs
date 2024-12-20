@@ -1,5 +1,28 @@
 use crate::lib::constants::Operator::*;
 
+pub const DEFAULT_LEN: usize = 30000;
+pub const DEFAULT_FILENAME: &str = "out.c";
+
+pub const ABOUT: &str = r"
+/*
+*      ___           ___           ___           ___                       ___           ___              
+*     /\  \         /\  \         /\  \         /\__\          ___        /\__\         /\__\             
+*    /::\  \       /::\  \       /::\  \       /::|  |        /\  \      /:/  /        /::|  |            
+*   /:/\:\  \     /:/\:\  \     /:/\:\  \     /:|:|  |        \:\  \    /:/  /        /:|:|  |            
+*  /:/  \:\  \   /::\~\:\  \   /::\~\:\  \   /:/|:|  |__      /::\__\  /:/  /  ___   /:/|:|__|__          
+* /:/__/ \:\__\ /:/\:\ \:\__\ /:/\:\ \:\__\ /:/ |:| /\__\  __/:/\/__/ /:/__/  /\__\ /:/ |::::\__\         
+* \:\  \  \/__/ \/_|::\/:/  / \/__\:\/:/  / \/__|:|/:/  / /\/:/  /    \:\  \ /:/  / \/__/~~/:/  /         
+*  \:\  \          |:|::/  /       \::/  /      |:/:/  /  \::/__/      \:\  /:/  /        /:/  /          
+*   \:\  \         |:|\/__/        /:/  /       |::/  /    \:\__\       \:\/:/  /        /:/  /           
+*    \:\__\        |:|  |         /:/  /        /:/  /      \/__/        \::/  /        /:/  /            
+*     \/__/         \|__|         \/__/         \/__/                     \/__/         \/__/             
+*                                     
+*                                        C O M P I L E R 
+*                                     ~ made by @wadafacc ~
+*
+*/
+";
+
 pub const HEADER: &str = "
 #include <stdio.h> \n
 main() { \n
@@ -7,11 +30,10 @@ char box[{}], *ptr=box, copy; \n
 ";
 
 pub const FOOTER: &str = "
-\n 
-exit(); \n
+exit();
 }";
 
-#[derive(Debug, PartialEq, Default)]
+#[derive(Debug, PartialEq, Default, Clone, Copy)]
 pub enum Operator {
   IncrCell,
   DecrCell,
@@ -49,10 +71,10 @@ pub const OPERATORS: [(char, Operator); 12] = [
 ];
 
 pub const MAPPINGS: [(Operator, &str); 12] = [
-  (IncrCell, "++(*ptr);"),
-  (DecrCell, "--(*ptr);"),
-  (IncrPtr, "++ptr;"),
-  (DecrPtr, "--ptr;"),
+  (IncrCell, "*ptr += {};"),
+  (DecrCell, "*ptr -= {};"),
+  (IncrPtr, "ptr += {};"),
+  (DecrPtr, "ptr += {};"),
   (Print, "putchar(*ptr);"),
   (Read, "*ptr = getchar();"),
   (StartLoop, "while (*ptr) {"),
