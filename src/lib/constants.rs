@@ -25,7 +25,7 @@ pub const ABOUT: &str = r"
 
 pub const HEADER: &str = "
 #include <stdio.h> \n
-main() { \n
+main() {
 char box[{}], *ptr=box, copy; \n
 ";
 

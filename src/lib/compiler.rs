@@ -10,8 +10,8 @@ pub struct Options {
   pub group_args: bool, // group applicable arguments together -> +ptr +ptr => ptr += 2
   pub len: Option<usize>,
   pub filename: Option<String>,
-  pub run: bool, // run after "compilation"
-  pub with_tui: bool // attach a tui that shows each cell value for debug
+  // pub _run: bool, // run after "compilation"
+  // pub _with_tui: bool // attach a tui that shows each cell value for debug
 }
 
 

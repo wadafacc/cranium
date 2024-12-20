@@ -21,7 +21,6 @@
 
 main()
 {
-
   char box[42069], *ptr = box, copy;
 
   *ptr += 8;

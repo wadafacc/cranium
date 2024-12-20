@@ -1,6 +1,5 @@
 use crate::lib::constants::{Operator::*, *};
 
-use super::compiler::Options;
 /*
 --- SYNTAX ---
 USUAL BRAINFUCK SYNTAX:
